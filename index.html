@@ -1,0 +1,366 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#070b16">
+<title>Marcel’s Stempelzeit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap">
+<style>
+:root{--bg:#f4f5f7;--card:#fff;--tx:#1a1c20;--mu:#6b7280;--gr:#1f9d4c;--rd:#d93025;--ln:#e2e4e8;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#111317;--card:#1b1e24;--tx:#eceef2;--mu:#9aa1ad;--ln:#2a2e36}}
+:root[data-theme="dark"]{--bg:#111317;--card:#1b1e24;--tx:#eceef2;--mu:#9aa1ad;--ln:#2a2e36}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--tx);font:16px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;padding:16px 16px 150px;max-width:520px;margin:0 auto}
+h1{font-size:20px;margin:4px 0 14px}
+.card{background:var(--card);border:1px solid var(--ln);border-radius:16px;padding:14px;margin-bottom:14px}
+.status{color:var(--mu);margin:0 0 12px;min-height:22px}
+.btns{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+button{font:inherit;border:0;border-radius:14px;padding:22px 8px;font-size:20px;font-weight:700;color:#fff;cursor:pointer}
+#in{background:var(--gr)}#out{background:var(--rd)}
+button:disabled{opacity:.35}
+.row{display:flex;gap:12px}
+.row label{flex:1;font-size:13px;color:var(--mu)}
+input{width:100%;font:inherit;font-size:17px;padding:10px;border-radius:10px;border:1px solid var(--ln);background:var(--bg);color:var(--tx);margin-top:4px}
+.h{font-size:13px;color:var(--mu);margin:0 0 8px;text-transform:uppercase;letter-spacing:.04em}
+.it{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-top:1px solid var(--ln);font-size:15px}
+.it:first-of-type{border-top:0}
+.it small{color:var(--mu);display:block}
+.x{background:none;color:var(--mu);padding:6px 10px;font-size:18px;font-weight:400}
+.bar{position:fixed;left:0;right:0;bottom:0;background:var(--card);border-top:1px solid var(--ln);padding:10px 16px calc(10px + env(safe-area-inset-bottom,0px))}
+.bar>div{max-width:520px;margin:0 auto;display:flex;justify-content:space-between;align-items:flex-end;gap:10px}
+.bar .l{font-size:11px;color:var(--mu)}
+.bar .v{font-size:22px;font-weight:700;font-variant-numeric:tabular-nums}
+.over{color:var(--rd)}
+.dlg{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;align-items:center;justify-content:center;padding:20px;z-index:50}
+.dlg.on{display:flex}
+.dlg .box{background:var(--card);border:1px solid var(--ln);border-radius:16px;padding:18px;width:100%;max-width:360px}
+.dlg p{margin:0 0 14px;font-size:17px}
+.dlg .btns button{padding:14px 8px;font-size:17px}
+#no{background:var(--mu)}#yes{background:var(--rd)}
+:root:root:root{--bg:#070b16;--card:rgba(255,255,255,.05);--tx:#e8f1ff;--mu:#8fa3c4;--gr:#00e08a;--rd:#ff3d6e;--ln:rgba(120,200,255,.2);--cy:#38e8ff;--vi:#8b5cff;--am:#ffb43d;color-scheme:dark}
+html{background:#070b16}
+body{background:transparent}
+body::before{content:"";position:fixed;inset:0;z-index:-1;background:radial-gradient(600px 400px at 85% -5%,rgba(139,92,255,.38),transparent 60%),radial-gradient(500px 400px at -10% 40%,rgba(56,232,255,.22),transparent 60%),radial-gradient(500px 400px at 100% 100%,rgba(0,224,138,.16),transparent 60%),linear-gradient(rgba(120,200,255,.06) 1px,transparent 1px) 0 0/36px 36px,linear-gradient(90deg,rgba(120,200,255,.06) 1px,transparent 1px) 0 0/36px 36px,#070b16}
+h1,#clk,button,.h,.bar .v{font-family:Orbitron,system-ui,sans-serif}
+h1{font-size:18px;letter-spacing:.1em;text-transform:uppercase;margin:4px 0 2px;background:linear-gradient(90deg,var(--cy),var(--vi));-webkit-background-clip:text;background-clip:text;color:transparent}
+#clk{font-size:40px;font-weight:700;margin:0 0 14px;text-shadow:0 0 18px rgba(56,232,255,.55);font-variant-numeric:tabular-nums}
+.card{backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 0 24px rgba(56,232,255,.07),inset 0 1px 0 rgba(255,255,255,.06)}
+button{letter-spacing:.06em;text-transform:uppercase;font-size:16px}
+#in{background:linear-gradient(135deg,#00e08a,#00a8a0);color:#02150e;box-shadow:0 0 22px rgba(0,224,138,.45)}
+#out{background:linear-gradient(135deg,#ff3d6e,#c1207f);box-shadow:0 0 22px rgba(255,61,110,.45)}
+button:disabled{opacity:.3;box-shadow:none}
+input{background:rgba(255,255,255,.06)}
+input:focus{outline:0;border-color:var(--cy);box-shadow:0 0 12px rgba(56,232,255,.4)}
+.h{color:var(--cy);font-size:11px}
+.bar{background:rgba(9,14,28,.72);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);box-shadow:0 -6px 30px rgba(56,232,255,.12)}
+.bar .v{font-size:15px;color:var(--cy);text-shadow:0 0 12px rgba(56,232,255,.6)}
+#gross{color:var(--gr);text-shadow:0 0 12px rgba(0,224,138,.6)}
+.bar .v.over{color:var(--rd);text-shadow:0 0 12px rgba(255,61,110,.7)}
+.dlg .box{background:#0e1426}
+.dlg .btns button{font-size:14px}
+.dlg .box label{font-size:13px;color:var(--mu);display:block}
+#emsg{color:var(--rd);margin:0 0 10px;font-size:14px}
+#eno{background:var(--mu)}#esv{background:var(--gr);color:#02150e}
+.x+.x{padding-left:4px}
+.mnav{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.mnav .x{font-size:26px;color:var(--cy);padding:2px 10px}
+#mh{text-align:center;line-height:1.5}
+/* Umschalter Hauptjob / Minijob */
+.seg{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:5px;margin-bottom:14px;border:1px solid var(--ln);border-radius:14px;background:rgba(255,255,255,.04)}
+.seg button{padding:11px 6px;font-size:13px;background:none;color:var(--mu);box-shadow:none;border-radius:10px}
+.seg button.on{background:rgba(56,232,255,.16);color:var(--cy);box-shadow:inset 0 0 0 1px rgba(56,232,255,.45)}
+.seg button.on.mini{background:rgba(255,180,61,.16);color:var(--am);box-shadow:inset 0 0 0 1px rgba(255,180,61,.5)}
+.hint{font-size:12px;color:var(--mu);margin:8px 0 0}
+.tag{display:inline-block;font-size:11px;color:var(--am);border:1px solid rgba(255,180,61,.5);border-radius:6px;padding:0 5px;margin-left:6px;font-family:system-ui,sans-serif}
+#xp{margin-top:10px;width:100%;padding:12px;font-size:14px;background:rgba(255,180,61,.14);color:var(--am);border:1px solid rgba(255,180,61,.45)}
+#xmsg{font-size:12px;color:var(--mu);margin:6px 0 0;text-align:center;min-height:16px}
+.mini-only{display:none}
+body.mini .mini-only{display:block}
+body.mini .haupt-only{display:none}
+</style>
+</head>
+<body>
+<h1>Marcel’s Stempelzeit</h1>
+<div id="clk">00:00:00</div>
+
+<div class="seg">
+  <button id="mh-haupt">Hauptjob</button>
+  <button id="mh-mini">Minijob</button>
+</div>
+
+<div class="card">
+  <p class="status" id="st">Nicht eingestempelt</p>
+  <div class="btns">
+    <button id="in">Kommen</button>
+    <button id="out">Gehen</button>
+  </div>
+  <p class="hint" id="other"></p>
+</div>
+
+<div class="card">
+  <p class="h">Einstellungen</p>
+  <div class="haupt-only">
+    <div class="row">
+      <label>Stundenlohn (€)<input id="wage" type="number" inputmode="decimal" step="0.01"></label>
+      <label>Überstunden-Zuschlag (%)<input id="ot" type="number" inputmode="decimal" step="1"></label>
+    </div>
+    <div class="row" style="margin-top:10px">
+      <label>Vertrag (Std./Tag)<input id="ct" type="number" inputmode="decimal" step="0.25"></label>
+    </div>
+  </div>
+  <div class="mini-only">
+    <p class="hint" id="mlohn"></p>
+    <p class="hint">Pause: Kommst du mit Haupt- und Minijob am selben Tag über 9 Stunden Anwesenheit, wird die zusätzliche Viertelstunde beim Minijob abgezogen.</p>
+  </div>
+</div>
+
+<div class="card">
+  <div class="mnav"><button class="x" id="mp" aria-label="Vorheriger Monat">‹</button><p class="h" id="mh" style="margin:0">Dieser Monat</p><button class="x" id="mn" aria-label="Nächster Monat">›</button></div>
+  <div id="list"></div>
+  <button id="add" style="margin-top:10px;width:100%;padding:12px;font-size:14px;background:rgba(56,232,255,.12);color:var(--cy);border:1px solid var(--ln)">+ Eintrag hinzufügen</button>
+  <div class="mini-only">
+    <button id="xp">Nach Excel exportieren</button>
+    <p id="xmsg"></p>
+  </div>
+</div>
+
+<div class="bar"><div>
+  <div><div class="l">9-Std.-Countdown</div><div class="v" id="cd">–</div></div>
+  <div style="text-align:center"><div class="l" id="hl">Stunden (Monat)</div><div class="v" id="hrs">00:00</div></div>
+  <div style="text-align:right"><div class="l" id="gl">Brutto bisher (Monat)</div><div class="v" id="gross">0,00 €</div></div>
+</div></div>
+
+<div class="dlg" id="dlg"><div class="box"><p id="dtx">Eintrag wirklich löschen?</p><div class="btns"><button id="no">Abbrechen</button><button id="yes">Löschen</button></div></div></div>
+<div class="dlg" id="edlg"><div class="box"><p id="etx">Eintrag bearbeiten</p><label>Datum<input id="ed" type="date"></label><div class="row" style="margin:10px 0"><label>Kommen<input id="ec" type="time"></label><label>Gehen<input id="eg" type="time"></label></div><p id="emsg"></p><div class="btns"><button id="eno">Abbrechen</button><button id="esv">Speichern</button></div></div></div>
+
+<script>
+var KEY='marcel-stempelzeit-v1';
+var S={open:null,days:[],set:{wage:25,ot:25,ct:7.5,sh:'06:00'}};
+try{var raw=localStorage.getItem(KEY);if(raw){var p=JSON.parse(raw);if(p&&p.set){S=p}}}catch(e){}
+// Minijob-Daten (werden bei alten Speicherständen ergänzt)
+if(!S.mdays)S.mdays=[];
+if(S.mopen===undefined)S.mopen=null;
+if(S.mode!=='mini')S.mode='haupt';
+var lastHtml='',pendingId=null;
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+function pad(n){return (n<10?'0':'')+n}
+function hm(m){return pad(Math.floor(m/60))+':'+pad(m%60)}
+function eur(x){return x.toLocaleString('de-DE',{style:'currency',currency:'EUR'})}
+function dkey(d){return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate())}
+function r15(m){var r=m%15,b=m-r;return r>=11?b+15:b}
+function shiftMin(){var p=(S.set.sh||'').split(':');return p.length==2?(+p[0])*60+(+p[1]):0}
+function minOf(d){return d.getHours()*60+d.getMinutes()}
+function rK(m){var r=m%15,b=m-r;return r>=5?b+15:b}
+function kommen(d){return rK(minOf(d))}
+function pauseFor(span){return span>540?45:(span>360?30:0)}
+function calc(c,g){
+  var span=Math.max(0,g-c),pause=pauseFor(span),net=Math.max(0,span-pause);
+  var lim=Math.round(S.set.ct*60),reg=Math.min(net,lim),ov=Math.max(0,net-lim);
+  var w=+S.set.wage||0,z=1+(+S.set.ot||0)/100;
+  return {net:net,pay:reg/60*w+ov/60*w*z};
+}
+
+/* ---------- Minijob ---------- */
+// Anwesenheit und bereits abgezogene Pause im Hauptjob an einem Tag
+function hauptAmTag(date,live){
+  var span=0,pause=0;
+  S.days.forEach(function(x){if(x.date===date){var s=Math.max(0,x.g-x.c);span+=s;pause+=pauseFor(s)}});
+  if(live){span+=live.span;pause+=pauseFor(live.span)}
+  return {span:span,pause:pause};
+}
+// Pausenabzug für alle Minijob-Einträge eines Tages:
+// Gesamtanwesenheit (Haupt + Mini) bestimmt die Pause, abzüglich der Pause, die schon im Hauptjob abgezogen wurde.
+function miniTag(date,extra){
+  var h=hauptAmTag(date),liste=S.mdays.filter(function(x){return x.date===date});
+  if(extra)liste=liste.concat([extra]);
+  liste.sort(function(a,b){return a.c-b.c});
+  var span=h.span,schon=h.pause,res={};
+  liste.forEach(function(x){
+    var s=Math.max(0,x.g-x.c);span+=s;
+    var abzug=Math.min(s,Math.max(0,pauseFor(span)-schon));schon+=abzug;
+    var net=s-abzug;
+    res[x.id]={span:s,abzug:abzug,net:net,pay:net/60*(+S.set.wage||0)};
+  });
+  return res;
+}
+function miniInfo(x){return miniTag(x.date)[x.id]}
+
+function realMonth(){var n=new Date();return n.getFullYear()+'-'+pad(n.getMonth()+1)}
+var viewMonth=realMonth();
+function monthPrefix(){return viewMonth}
+var MN=['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'];
+function monthLabel(p){var a=p.split('-');return MN[+a[1]-1]+' '+a[0]}
+function shiftMonth(p,d){var a=p.split('-'),dt=new Date(+a[0],+a[1]-1+d,1);return dt.getFullYear()+'-'+pad(dt.getMonth()+1)}
+function isMini(){return S.mode==='mini'}
+function curDays(){return isMini()?S.mdays:S.days}
+
+function render(){
+  var now=new Date(),total=0,mins=0,html='',mini=isMini(),o=mini?S.mopen:S.open;
+  document.body.className=mini?'mini':'';
+  document.getElementById('mh-haupt').className=mini?'':'on';
+  document.getElementById('mh-mini').className=mini?'on mini':'';
+  document.getElementById('clk').textContent=pad(now.getHours())+':'+pad(now.getMinutes())+':'+pad(now.getSeconds());
+  var st=document.getElementById('st'),cd=document.getElementById('cd');
+
+  if(!mini){
+    S.days.filter(function(x){return x.date.indexOf(monthPrefix())==0}).forEach(function(x){total+=x.pay;mins+=x.net});
+    if(o){
+      var od=new Date(o.ts),c=kommen(od),g=r15(minOf(now));
+      var live=calc(c,Math.max(c,g));if(dkey(od).indexOf(viewMonth)==0){total+=live.pay;mins+=live.net}
+      st.textContent='Gekommen: '+hm(c)+' Uhr (gestempelt '+hm(minOf(od))+')';
+      var end=new Date(od.getFullYear(),od.getMonth(),od.getDate()).getTime()+(c+540)*60000;
+      var diff=end-now.getTime(),a=Math.abs(diff),s=Math.floor(a/1000);
+      cd.textContent=(diff<0?'+':'')+pad(Math.floor(s/3600))+':'+pad(Math.floor(s%3600/60))+':'+pad(s%60);
+      cd.className='v'+(diff<0?' over':'');
+    }else{st.textContent='Nicht eingestempelt';cd.textContent='–';cd.className='v'}
+  }else{
+    S.mdays.filter(function(x){return x.date.indexOf(monthPrefix())==0}).forEach(function(x){var i=miniInfo(x);total+=i.pay;mins+=i.net});
+    if(o){
+      var od2=new Date(o.ts),c2=kommen(od2),g2=Math.max(c2,r15(minOf(now))),dk=dkey(od2);
+      var li=miniTag(dk,{id:'live',date:dk,c:c2,g:g2}).live;
+      if(dk.indexOf(viewMonth)==0){total+=li.pay;mins+=li.net}
+      st.textContent='Minijob gekommen: '+hm(c2)+' Uhr (gestempelt '+hm(minOf(od2))+')'+(li.abzug?' · Pause '+li.abzug+' Min.':'');
+      // Countdown: bis Haupt- und Minijob zusammen 9 Stunden Anwesenheit erreichen
+      var hs=hauptAmTag(dk).span;
+      var end2=new Date(od2.getFullYear(),od2.getMonth(),od2.getDate()).getTime()+(c2+540-hs)*60000;
+      var diff2=end2-now.getTime(),a2=Math.abs(diff2),s2=Math.floor(a2/1000);
+      cd.textContent=(diff2<0?'+':'')+pad(Math.floor(s2/3600))+':'+pad(Math.floor(s2%3600/60))+':'+pad(s2%60);
+      cd.className='v'+(diff2<0?' over':'');
+    }else{st.textContent='Minijob: nicht eingestempelt';cd.textContent='–';cd.className='v'}
+  }
+
+  // Hinweis, wenn im anderen Job noch eingestempelt
+  var other=mini?S.open:S.mopen;
+  document.getElementById('other').textContent=other?('Achtung: Im '+(mini?'Hauptjob':'Minijob')+' bist du noch eingestempelt.'):'';
+
+  document.getElementById('mlohn').textContent='Stundenlohn wie im Hauptjob: '+eur(+S.set.wage||0)+' (änderbar im Hauptjob-Modus).';
+  document.getElementById('in').disabled=!!o;
+  document.getElementById('out').disabled=!o;
+  document.getElementById('gross').textContent=eur(total);
+  document.getElementById('hrs').textContent=hm(mins);
+  document.getElementById('hl').textContent=mini?'Minijob-Stunden':'Stunden (Monat)';
+  document.getElementById('gl').textContent=mini?'Minijob brutto':'Brutto bisher (Monat)';
+  document.getElementById('mh').textContent=monthLabel(viewMonth)+' ('+eur(total)+')';
+  document.getElementById('mn').disabled=viewMonth>=realMonth();
+
+  curDays().filter(function(x){return x.date.indexOf(monthPrefix())==0}).slice().reverse().forEach(function(x){
+    var d=x.date.split('-'),net=x.net,pay=x.pay,extra='';
+    if(mini){var i=miniInfo(x);net=i.net;pay=i.pay;if(i.abzug)extra=' · Pause '+i.abzug+' Min.'}
+    html+='<div class="it"><div>'+d[2]+'.'+d[1]+'. · '+hm(x.c)+'–'+hm(x.g%1440)+'<small>Netto '+hm(net)+' h · '+eur(pay)+extra+'</small></div><span><button class="x" data-ed="'+x.id+'" aria-label="Bearbeiten">✎</button><button class="x" data-id="'+x.id+'" aria-label="Löschen">✕</button></span></div>';
+  });
+  html=html||'<span class="status">Noch keine Einträge</span>';
+  html=(mini?'M':'H')+html;
+  if(html!==lastHtml){document.getElementById('list').innerHTML=html.slice(1);lastHtml=html}
+}
+
+document.getElementById('mh-haupt').onclick=function(){S.mode='haupt';save();render()};
+document.getElementById('mh-mini').onclick=function(){S.mode='mini';save();render()};
+
+document.getElementById('in').onclick=function(){
+  if(isMini()){if(!S.mopen){S.mopen={ts:Date.now()};save();render()}}
+  else if(!S.open){S.open={ts:Date.now()};save();render()}
+};
+document.getElementById('out').onclick=function(){
+  var mini=isMini(),o=mini?S.mopen:S.open;
+  if(!o)return;
+  var od=new Date(o.ts),now=new Date(),c=kommen(od),g=Math.max(c,r15(minOf(now)));
+  if(dkey(now)!==dkey(od))g=1440;
+  if(mini){
+    S.mdays.push({id:Date.now(),date:dkey(od),c:c,g:g});
+    S.mopen=null;save();render();
+    exportMini(true);
+  }else{
+    var r=calc(c,g);
+    S.days.push({id:Date.now(),date:dkey(od),c:c,g:g,net:r.net,pay:r.pay});
+    S.open=null;save();render();
+  }
+};
+document.getElementById('list').onclick=function(e){
+  var ed=e.target.closest?e.target.closest('[data-ed]'):null;
+  if(ed){openEd(ed.getAttribute('data-ed'));return}
+  var b=e.target.closest?e.target.closest('[data-id]'):null;
+  if(!b)return;
+  pendingId=b.getAttribute('data-id');
+  var x=curDays().filter(function(d){return String(d.id)===pendingId})[0];
+  if(x){var p=x.date.split('-');document.getElementById('dtx').textContent=(isMini()?'Minijob-':'')+'Eintrag vom '+p[2]+'.'+p[1]+'. ('+hm(x.c)+'–'+hm(x.g%1440)+') wirklich löschen?'+(isMini()?' In Excel bleibt er stehen und muss dort von Hand entfernt werden.':'')}
+  document.getElementById('dlg').className='dlg on';
+};
+document.getElementById('no').onclick=function(){pendingId=null;document.getElementById('dlg').className='dlg'};
+document.getElementById('yes').onclick=function(){
+  var flt=function(d){return String(d.id)!==pendingId};
+  if(isMini())S.mdays=S.mdays.filter(flt);else S.days=S.days.filter(flt);
+  pendingId=null;document.getElementById('dlg').className='dlg';save();render();
+};
+var editId=null;
+function tm(v){var p=(v||'').split(':');return p.length==2?(+p[0])*60+(+p[1]):null}
+function openEd(id){
+  editId=id;
+  var x=id?curDays().filter(function(d){return String(d.id)===String(id)})[0]:null;
+  document.getElementById('etx').textContent=(isMini()?'Minijob: ':'')+(x?'Eintrag bearbeiten':'Eintrag hinzufügen');
+  document.getElementById('ed').value=x?x.date:(viewMonth===realMonth()?dkey(new Date()):viewMonth+'-01');
+  document.getElementById('ec').value=x?hm(x.c):'';
+  document.getElementById('eg').value=x?hm(x.g%1440):'';
+  document.getElementById('emsg').textContent='';
+  document.getElementById('edlg').className='dlg on';
+}
+document.getElementById('add').onclick=function(){openEd(null)};
+document.getElementById('eno').onclick=function(){document.getElementById('edlg').className='dlg'};
+document.getElementById('esv').onclick=function(){
+  var dt=document.getElementById('ed').value,c=tm(document.getElementById('ec').value),g=tm(document.getElementById('eg').value),m=document.getElementById('emsg');
+  if(!dt||c===null||g===null){m.textContent='Bitte Datum, Kommen und Gehen ausfüllen.';return}
+  c=rK(c);g=r15(g);if(g<c)g+=1440;
+  var srt=function(a,b){return a.date<b.date?-1:a.date>b.date?1:a.c-b.c};
+  if(isMini()){
+    if(editId){S.mdays.forEach(function(d){if(String(d.id)===String(editId)){d.date=dt;d.c=c;d.g=g}})}
+    else{S.mdays.push({id:Date.now(),date:dt,c:c,g:g})}
+    S.mdays.sort(srt);
+  }else{
+    var r=calc(c,g);
+    if(editId){S.days.forEach(function(d){if(String(d.id)===String(editId)){d.date=dt;d.c=c;d.g=g;d.net=r.net;d.pay=r.pay}})}
+    else{S.days.push({id:Date.now(),date:dt,c:c,g:g,net:r.net,pay:r.pay})}
+    S.days.sort(srt);
+  }
+  document.getElementById('edlg').className='dlg';save();render();
+};
+document.getElementById('mp').onclick=function(){viewMonth=shiftMonth(viewMonth,-1);render()};
+document.getElementById('mn').onclick=function(){if(viewMonth<realMonth()){viewMonth=shiftMonth(viewMonth,1);render()}};
+var f={wage:'wage',ot:'ot',ct:'ct'};
+Object.keys(f).forEach(function(k){
+  var el=document.getElementById(f[k]);el.value=S.set[k];
+  el.oninput=function(){S.set[k]=k=='sh'?el.value:parseFloat(el.value.replace(',','.'))||0;save();render()};
+});
+
+/* ---------- Export für Excel ----------
+   Datei: Minijob_JJJJMMTT-HHMMSS.csv
+   Spalten: ID;Datum;Kommen;Gehen;Pausenabzug (Min.)
+   Das Excel-Makro übernimmt sie beim Öffnen ins passende Monatsblatt. */
+function exportMini(nachGehen){
+  var msg=document.getElementById('xmsg');
+  if(!S.mdays.length){msg.textContent='Keine Minijob-Einträge vorhanden.';return}
+  var zeilen=['ID;Datum;Kommen;Gehen;Pausenabzug'];
+  S.mdays.forEach(function(x){
+    var d=x.date.split('-'),i=miniInfo(x);
+    zeilen.push(x.id+';'+d[2]+'.'+d[1]+'.'+d[0]+';'+hm(x.c)+';'+hm(x.g%1440)+';'+i.abzug);
+  });
+  var n=new Date(),name='Minijob_'+n.getFullYear()+pad(n.getMonth()+1)+pad(n.getDate())+'-'+pad(n.getHours())+pad(n.getMinutes())+pad(n.getSeconds())+'.csv';
+  var blob=new Blob(['﻿'+zeilen.join('\r\n')],{type:'text/csv'});
+  var file=null;try{file=new File([blob],name,{type:'text/csv'})}catch(e){}
+  if(file&&navigator.canShare&&navigator.canShare({files:[file]})){
+    navigator.share({files:[file],title:name}).then(function(){msg.textContent='Exportiert: '+name}).catch(function(){msg.textContent=nachGehen?'Export abgebrochen – über „Nach Excel exportieren“ nachholen.':'Export abgebrochen.'});
+  }else{
+    var url=URL.createObjectURL(blob),a=document.createElement('a');
+    a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();
+    setTimeout(function(){URL.revokeObjectURL(url)},2000);
+    msg.textContent='Heruntergeladen: '+name;
+  }
+}
+document.getElementById('xp').onclick=function(){exportMini(false)};
+
+render();setInterval(render,1000);
+</script>
+</body>
+</html>
